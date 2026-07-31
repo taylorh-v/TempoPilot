@@ -22,7 +22,8 @@ def health_check():
 @app.get("/api/project-risk")
 def project_risk(project_name: str = "Sample Project"):
     graph = GraphClient(settings)
-    signals = build_signal(project_name=project_name, **graph.list_project_signals())
+    graph_signals = graph.list_project_signals(project_name=project_name)
+    signals = build_signal(project_name=project_name, **graph_signals)
     risk = summarize_risk(signals)
 
     try:

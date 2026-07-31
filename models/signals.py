@@ -4,6 +4,8 @@ DEFAULT_SIGNAL = {
     "tasks": [],
     "last_activity_days": 0,
     "calendar_days_since_last_meeting": 0,
+    "last_meeting_date": None,
+    "last_meeting_subject": None,
 }
 
 

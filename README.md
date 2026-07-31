@@ -1,75 +1,115 @@
 # TempoPilot
 
-**AI-Powered Coordination Intelligence for Microsoft 365**
+AI-powered coordination intelligence for Microsoft 365.
 
-TempoPilot is a Microsoft Teams-based AI agent that analyzes collaboration signals across Microsoft 365 to identify emerging project risks, explain their causes, and recommend proactive actions before project momentum is lost.
+TempoPilot is a Microsoft 365 project-risk agent that detects coordination issues early by analyzing collaboration signals across Teams, email, tasks, and calendar activity. It identifies risks such as delayed approvals, missed commitments, stakeholder disengagement, and declining project momentum, then explains the likely cause and recommends action.
 
-## Why TempoPilot?
+## Project goal
 
-Organizations have more collaboration data than ever, but limited visibility into emerging coordination risks such as:
-
-- Delayed approvals
-- Missed commitments
-- Stakeholder disengagement
-- Communication bottlenecks
-- Project momentum loss
-
-TempoPilot turns Microsoft 365 activity into actionable project intelligence.
-
-## Key Capabilities
-
-- 🔍 **Risk Detection**  
-  Identify approval bottlenecks, delayed responses, overdue tasks, and communication gaps.
-
-- 📈 **Momentum Analysis**  
-  Monitor engagement, responsiveness, and project health signals.
-
-- 💡 **Explainable Insights**  
-  Understand why risks were detected with evidence-backed reasoning.
-
-- ⚡ **Recommended Actions**  
-  Generate follow-ups, create tasks, notify stakeholders, and trigger escalations.
+Turn Microsoft 365 activity into early warning indicators for project health.
 
 ## Architecture
 
 ```text
 Microsoft Teams
-       │
-       ▼
-Copilot Studio (TempoPilot)
-       │
- ├─ Azure OpenAI
- ├─ Microsoft Graph
- ├─ Azure AI Search
- ├─ Dataverse
- └─ Power Automate
+   │
+   ▼
+Copilot Studio
+   │
+   ├─ Azure OpenAI
+   ├─ Microsoft Graph
+   ├─ Azure AI Search
+   ├─ Dataverse
+   └─ Power Automate
 ```
 
-## Technology Stack
+This repository contains the initial Python backend MVP for the intelligence layer.
+
+## Current repo structure
+
+```text
+TempoPilot/
+├── app.py
+├── requirements.txt
+├── .env.example
+├── .gitignore
+├── README.md
+├── MVP_TASK_LIST.md
+├── RISK_ENGINE_README.md
+├── config/
+│   └── settings.py
+├── models/
+│   └── signals.py
+├── services/
+│   ├── graph_client.py
+│   ├── risk_engine.py
+│   └── openai_service.py
+├── tests/
+│   └── test_risk_engine.py
+└── .venv/
+```
+
+## Core stack
 
 - Microsoft Teams
 - Copilot Studio
-- Azure OpenAI
 - Microsoft Graph API
+- Azure OpenAI
 - Azure AI Search
 - Dataverse
 - Power Automate
-- GitHub & GitHub Actions
+- Python + FastAPI
 
-## Example
+## MVP features
 
-TempoPilot detects:
+- Microsoft Graph client scaffold
+- signal normalization model
+- project risk scoring engine
+- calendar inactivity signal for project manager coordination gaps
+- Azure OpenAI integration hook
+- basic automated tests for risk logic
 
-- An approval pending for 6 days
-- Multiple overdue tasks
-- An inactive stakeholder
+## Current risk signal
 
-It analyzes project context, calculates a risk score, explains the root cause, and recommends next steps such as follow-ups, task creation, or escalation.
+The first implemented coordination signal is calendar inactivity.
 
-## Vision
+If a project manager has not met with the team in 6+ days, the system raises the project risk score and flags coordination drift as a reason for concern.
 
-TempoPilot helps organizations move from **reactive project management** to **proactive coordination intelligence**, enabling teams to identify and address risks before they impact delivery.
+## Quick start
 
----
+1. Create a Python environment.
+2. Install dependencies:
 
-> **TempoPilot transforms Microsoft 365 collaboration signals into proactive project risk insights.**
+```bash
+pip install -r requirements.txt
+```
+
+3. Copy the example environment file and add your Azure values:
+
+```bash
+copy .env.example .env
+```
+
+4. Start the API:
+
+```bash
+uvicorn app:app --reload
+```
+
+5. Call the risk endpoint:
+
+```text
+GET /api/project-risk
+```
+
+## Current status
+
+This is an MVP backend foundation for the full TempoPilot system. The next steps are real Microsoft Graph data integration, tenant-specific configuration, and connection to the Teams/Copilot experience.
+
+## Notes
+
+- Secrets are not committed to source control.
+- The repo includes a .gitignore for local environment files.
+- Runtime validation is still pending real environment setup for Azure and Python dependencies.
+
+> TempoPilot turns Microsoft 365 collaboration signals into proactive project risk intelligence.
